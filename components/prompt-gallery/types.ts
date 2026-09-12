@@ -1,12 +1,11 @@
-export type PromptGalleryItem = {
-  id: string;
-  title: string;
-  category: string;
-  categoryLabel: string;
-  image: string;
-  width: number;
-  height: number;
-  href: string;
-  isPremium?: boolean;
-  hasVariations?: boolean;
-};
+import type { PublicPromptItem } from "@/lib/firebase/firestore/list-public-prompts";
+
+export type PromptGalleryItem = PublicPromptItem;
+
+export function isFreePrompt(item: PromptGalleryItem) {
+  return item.prompt_usage_type === "free";
+}
+
+export function isPremiumPrompt(item: PromptGalleryItem) {
+  return item.prompt_usage_type === "premium";
+}

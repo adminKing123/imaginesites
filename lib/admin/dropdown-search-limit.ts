@@ -1,0 +1,1 @@
+export const ADMIN_DROPDOWN_SEARCH_LIMIT = 25;

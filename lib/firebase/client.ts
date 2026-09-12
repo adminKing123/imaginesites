@@ -2,10 +2,12 @@
 
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
 import { getAuth, type Auth } from "firebase/auth";
+import { getFirestore, type Firestore } from "firebase/firestore";
 import { getFirebaseConfig } from "./config";
 
 let firebaseApp: FirebaseApp | undefined;
 let firebaseAuth: Auth | undefined;
+let firebaseFirestore: Firestore | undefined;
 
 export function getFirebaseApp() {
   if (!firebaseApp) {
@@ -21,4 +23,12 @@ export function getFirebaseAuth() {
   }
 
   return firebaseAuth;
+}
+
+export function getFirebaseFirestore() {
+  if (!firebaseFirestore) {
+    firebaseFirestore = getFirestore(getFirebaseApp());
+  }
+
+  return firebaseFirestore;
 }

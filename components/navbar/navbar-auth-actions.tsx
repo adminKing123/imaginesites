@@ -10,13 +10,13 @@ type NavbarAuthActionsProps = {
 };
 
 export function NavbarAuthActions({ className = "" }: NavbarAuthActionsProps) {
-  const { user, loading } = useAuthUser();
+  const { user, loading, isAdmin } = useAuthUser();
 
   return (
     <div className={`flex items-center gap-6 ${className}`}>
       <SearchButton />
 
-      {!loading && (user ? <UserMenu user={user} /> : <SignUpButton />)}
+      {!loading && (user ? <UserMenu user={user} isAdmin={isAdmin} /> : <SignUpButton />)}
     </div>
   );
 }

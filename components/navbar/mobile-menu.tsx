@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { AUTH_ROUTES } from "@/lib/auth/routes";
 import { YOUTUBE_HREF } from "./config";
 import { CloseIcon, YouTubeIcon } from "./icons";
 import { NavbarLinks } from "./navbar-links";
@@ -16,7 +17,7 @@ type MobileMenuProps = {
 };
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
-  const { user, loading } = useAuthUser();
+  const { user, loading, isAdmin } = useAuthUser();
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -75,6 +76,15 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                   <p className="truncate text-xs text-muted">{user.email}</p>
                 </div>
               </div>
+              {isAdmin ? (
+                <Link
+                  href={AUTH_ROUTES.adminPanel}
+                  onClick={onClose}
+                  className="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-6 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/5"
+                >
+                  Admin panel
+                </Link>
+              ) : null}
               <button
                 type="button"
                 onClick={async () => {

@@ -1,0 +1,23 @@
+import type { CategoryReference } from "./category-types";
+
+export type { CategoryReference };
+
+export const PROMPT_TYPES = {
+  image: "image",
+} as const;
+
+export type PromptType = (typeof PROMPT_TYPES)[keyof typeof PROMPT_TYPES];
+
+export const PROMPT_USAGE_TYPES = {
+  free: "free",
+  premium: "premium",
+} as const;
+
+export type PromptUsageType =
+  (typeof PROMPT_USAGE_TYPES)[keyof typeof PROMPT_USAGE_TYPES];
+
+export type PromptImageReference = {
+  id: string;
+  image_name: string;
+  image_cdn_url: string;
+};

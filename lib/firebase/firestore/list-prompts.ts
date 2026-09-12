@@ -1,0 +1,106 @@
+import type { Firestore, Query, QueryDocumentSnapshot } from "firebase-admin/firestore";
+import { FIRESTORE_COLLECTIONS } from "./collections";
+import type { PromptRecord } from "./prompts";
+import type { PromptType, PromptUsageType } from "./prompt-types";
+
+type ListPromptsInput = {
+  limit: number;
+  cursor?: string;
+  promptId?: string;
+  promptTitle?: string;
+  type?: PromptType;
+  promptUsageType?: PromptUsageType;
+};
+
+type ListPromptsResult = {
+  items: Array<{
+    id: string;
+    type: PromptType;
+    prompt_title: string;
+    prompt: string;
+    before_image: PromptRecord["before_image"];
+    after_image: PromptRecord["after_image"];
+    prompt_usage_type: PromptUsageType;
+    categories: PromptRecord["categories"];
+    createdAt: string | null;
+  }>;
+  nextCursor: string | null;
+};
+
+function serializePrompt(doc: QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot) {
+  const data = doc.data() as PromptRecord | undefined;
+
+  return {
+    id: data?.id ?? doc.id,
+    type: data?.type ?? "image",
+    prompt_title: data?.prompt_title ?? "",
+    prompt: data?.prompt ?? "",
+    before_image: data?.before_image,
+    after_image: data?.after_image,
+    prompt_usage_type: data?.prompt_usage_type ?? "free",
+    categories: data?.categories ?? [],
+    createdAt: data?.createdAt?.toDate?.()?.toISOString?.() ?? null,
+  };
+}
+
+export async function listPrompts(
+  db: Firestore,
+  input: ListPromptsInput,
+): Promise<ListPromptsResult> {
+  const promptId = input.promptId?.trim();
+  const promptTitle = input.promptTitle?.trim();
+  const limit = Math.min(Math.max(input.limit, 1), 50);
+
+  if (promptId) {
+    const snapshot = await db.collection(FIRESTORE_COLLECTIONS.prompts).doc(promptId).get();
+
+    if (!snapshot.exists) {
+      return { items: [], nextCursor: null };
+    }
+
+    return {
+      items: [serializePrompt(snapshot)],
+      nextCursor: null,
+    };
+  }
+
+  let query: Query = db.collection(FIRESTORE_COLLECTIONS.prompts);
+
+  if (input.type) {
+    query = query.where("type", "==", input.type);
+  }
+
+  if (input.promptUsageType) {
+    query = query.where("prompt_usage_type", "==", input.promptUsageType);
+  }
+
+  if (promptTitle) {
+    query = query
+      .where("prompt_title", ">=", promptTitle)
+      .where("prompt_title", "<=", `${promptTitle}\uf8ff`)
+      .orderBy("prompt_title");
+  } else {
+    query = query.orderBy("createdAt", "desc");
+  }
+
+  if (input.cursor) {
+    const cursorSnapshot = await db
+      .collection(FIRESTORE_COLLECTIONS.prompts)
+      .doc(input.cursor)
+      .get();
+
+    if (cursorSnapshot.exists) {
+      query = query.startAfter(cursorSnapshot);
+    }
+  }
+
+  const snapshot = await query.limit(limit + 1).get();
+  const docs = snapshot.docs;
+  const hasMore = docs.length > limit;
+  const pageDocs = hasMore ? docs.slice(0, limit) : docs;
+
+  return {
+    items: pageDocs.map(serializePrompt),
+    nextCursor: hasMore ? pageDocs[pageDocs.length - 1]?.id ?? null : null,
+  };
+}

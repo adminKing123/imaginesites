@@ -1,17 +1,14 @@
 "use client";
 
-import {
-  CATEGORIES,
-  PRICING_OPTIONS,
-  RECENT_OPTIONS,
-  TYPE_OPTIONS,
-} from "./config";
+import { PRICING_OPTIONS, RECENT_OPTIONS, TYPE_OPTIONS } from "./config";
+import type { FilterOption } from "./config";
 import { CategoryPill } from "./category-pill";
 import { FilterDropdown } from "./filter-dropdown";
 import { MobileFilterMenu } from "./mobile-filter-menu";
 import { ScrollFadeContainer } from "./scroll-fade-container";
 
 type CategoryBarProps = {
+  categories: FilterOption[];
   activeCategory: string;
   onCategoryChange: (value: string) => void;
   recentValue: string;
@@ -23,6 +20,7 @@ type CategoryBarProps = {
 };
 
 export function CategoryBar({
+  categories,
   activeCategory,
   onCategoryChange,
   recentValue,
@@ -39,7 +37,7 @@ export function CategoryBar({
           className="min-w-0 flex-1 rounded-full border border-white/10"
           innerClassName="flex items-center gap-2 px-1 py-1"
         >
-          {CATEGORIES.map((category) => (
+          {categories.map((category) => (
             <CategoryPill
               key={category.value}
               label={category.label}

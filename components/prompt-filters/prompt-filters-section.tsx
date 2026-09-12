@@ -1,16 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { usePromptDiscovery } from "@/components/prompt-gallery/prompt-discovery-context";
 import { CategoryBar } from "./category-bar";
 
 export function PromptFiltersSection() {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [recentValue, setRecentValue] = useState("recent");
-  const [pricingValue, setPricingValue] = useState("all");
-  const [typeValue, setTypeValue] = useState("all");
+  const {
+    categories,
+    activeCategory,
+    setActiveCategory,
+    recentValue,
+    setRecentValue,
+    pricingValue,
+    setPricingValue,
+    typeValue,
+    setTypeValue,
+  } = usePromptDiscovery();
 
   return (
     <CategoryBar
+      categories={categories}
       activeCategory={activeCategory}
       onCategoryChange={setActiveCategory}
       recentValue={recentValue}
