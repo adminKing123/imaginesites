@@ -14,7 +14,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-surface">
+      <header className="w-full bg-surface">
         <div className="flex h-16 w-full items-center justify-between px-6 lg:h-[72px] lg:px-8">
           <div className="flex items-center gap-10">
             <NavbarLogo />
