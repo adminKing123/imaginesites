@@ -15,7 +15,7 @@ export function GalleryCardMeta({ item }: GalleryCardMetaProps) {
   return (
     <div className="mt-2">
       <div className="flex items-start justify-between gap-3">
-        <h3 className="min-w-0 truncate text-sm font-semibold text-white sm:text-base">
+        <h3 className="min-w-0 truncate text-xs font-semibold text-white sm:text-sm lg:text-base">
           {item.prompt_title}
         </h3>
 
@@ -27,7 +27,7 @@ export function GalleryCardMeta({ item }: GalleryCardMetaProps) {
         ) : null}
       </div>
 
-      <p className="mt-0.5 truncate text-sm text-muted">{categoryLabel}</p>
+      <p className="mt-0.5 truncate text-xs text-muted sm:text-sm">{categoryLabel}</p>
     </div>
   );
 }

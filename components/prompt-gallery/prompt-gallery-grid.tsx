@@ -1,4 +1,5 @@
 import { GalleryCard } from "./gallery-card";
+import { GALLERY_GRID_CLASS } from "./constants";
 import { GallerySkeletonCard } from "./gallery-skeleton-card";
 import type { PromptGalleryItem } from "./types";
 
@@ -11,7 +12,7 @@ type PromptGalleryGridProps = {
 
 export function PromptGalleryGrid({ items, loadingMore = false }: PromptGalleryGridProps) {
   return (
-    <div className="columns-1 gap-5 sm:columns-2 lg:columns-3 xl:columns-4">
+    <div className={GALLERY_GRID_CLASS}>
       {items.map((item) => (
         <GalleryCard key={item.id} item={item} />
       ))}

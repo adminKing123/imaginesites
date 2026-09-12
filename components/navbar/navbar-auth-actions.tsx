@@ -7,16 +7,25 @@ import { UserMenu } from "./user-menu";
 
 type NavbarAuthActionsProps = {
   className?: string;
+  variant?: "desktop" | "mobile";
 };
 
-export function NavbarAuthActions({ className = "" }: NavbarAuthActionsProps) {
+export function NavbarAuthActions({
+  className = "",
+  variant = "desktop",
+}: NavbarAuthActionsProps) {
   const { user, loading, isAdmin } = useAuthUser();
+  const showProfile = variant === "desktop";
 
   return (
     <div className={`flex items-center gap-6 ${className}`}>
       <SearchButton />
 
-      {!loading && (user ? <UserMenu user={user} isAdmin={isAdmin} /> : <SignUpButton />)}
+      {showProfile && !loading
+        ? user
+          ? <UserMenu user={user} isAdmin={isAdmin} />
+          : <SignUpButton />
+        : null}
     </div>
   );
 }

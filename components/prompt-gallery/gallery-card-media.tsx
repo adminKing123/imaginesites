@@ -11,7 +11,7 @@ type GalleryCardMediaProps = {
 };
 
 const iconOverlayClassName =
-  "inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-black/45 text-white backdrop-blur-md transition-colors hover:bg-black/60 active:bg-black/70";
+  "inline-flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/45 text-white backdrop-blur-md transition-colors hover:bg-black/60 active:bg-black/70 sm:h-8 sm:w-8 sm:rounded-lg";
 
 export function GalleryCardMedia({ item }: GalleryCardMediaProps) {
   const [showBefore, setShowBefore] = useState(false);
@@ -75,9 +75,9 @@ export function GalleryCardMedia({ item }: GalleryCardMediaProps) {
           onClick={(event) => void handleCopy(event)}
           aria-label={copied ? "Prompt copied" : "Copy prompt"}
           title={copied ? "Copied!" : "Copy prompt"}
-          className={`absolute right-2 top-2 ${iconOverlayClassName}`}
+          className={`absolute right-1.5 top-1.5 sm:right-2 sm:top-2 ${iconOverlayClassName}`}
         >
-          <FiCopy className="h-4 w-4" aria-hidden="true" />
+          <FiCopy className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
         </button>
       ) : null}
 
@@ -94,9 +94,9 @@ export function GalleryCardMedia({ item }: GalleryCardMediaProps) {
           onPointerUp={() => setShowBefore(false)}
           onPointerLeave={() => setShowBefore(false)}
           onPointerCancel={() => setShowBefore(false)}
-          className={`absolute bottom-2 right-2 ${iconOverlayClassName}`}
+          className={`absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 ${iconOverlayClassName}`}
         >
-          <MdOutlineFlip className="h-4 w-4" aria-hidden="true" />
+          <MdOutlineFlip className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
         </button>
       ) : null}
     </div>

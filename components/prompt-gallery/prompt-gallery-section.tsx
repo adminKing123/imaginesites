@@ -31,7 +31,7 @@ export function PromptGallerySection() {
   }, [hasMore, loadMore, items.length]);
 
   return (
-    <section className="w-full px-6 pb-16 pt-8 lg:px-8">
+    <section className="w-full px-3 pb-16 pt-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {loading ? (
           <PromptGallerySkeleton />

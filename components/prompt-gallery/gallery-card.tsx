@@ -8,7 +8,7 @@ type GalleryCardProps = {
 
 export function GalleryCard({ item }: GalleryCardProps) {
   return (
-    <article className="group mb-5 break-inside-avoid">
+    <article className="group mb-3 break-inside-avoid sm:mb-5">
       <GalleryCardMedia item={item} />
       <GalleryCardMeta item={item} />
     </article>

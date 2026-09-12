@@ -1,3 +1,4 @@
+import { GALLERY_GRID_CLASS } from "./constants";
 import { GallerySkeletonCard } from "./gallery-skeleton-card";
 
 const SKELETON_IMAGE_HEIGHTS = [
@@ -11,7 +12,7 @@ type PromptGallerySkeletonProps = {
 export function PromptGallerySkeleton({ count = 12 }: PromptGallerySkeletonProps) {
   return (
     <div
-      className="columns-1 gap-5 sm:columns-2 lg:columns-3 xl:columns-4"
+      className={GALLERY_GRID_CLASS}
       aria-busy="true"
       aria-label="Loading prompts"
     >

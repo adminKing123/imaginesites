@@ -4,7 +4,7 @@ type GallerySkeletonCardProps = {
 
 export function GallerySkeletonCard({ imageHeight }: GallerySkeletonCardProps) {
   return (
-    <article className="mb-5 break-inside-avoid">
+    <article className="mb-3 break-inside-avoid sm:mb-5">
       <div
         className="animate-pulse rounded-2xl bg-white/10"
         style={{ height: imageHeight }}

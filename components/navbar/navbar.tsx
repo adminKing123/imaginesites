@@ -24,7 +24,7 @@ export function Navbar() {
           <NavbarAuthActions className="hidden lg:flex" />
 
           <div className="flex items-center gap-5 lg:hidden">
-            <NavbarAuthActions className="gap-5" />
+            <NavbarAuthActions variant="mobile" className="gap-5" />
             <button
               type="button"
               aria-label="Open menu"
