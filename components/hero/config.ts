@@ -3,11 +3,11 @@ export const HERO_CONTENT = {
   heading: {
     before: "Unlock your",
     highlight: "AI",
-    middle: "image",
+    middle: "creative",
     glow: "superpowers",
   },
   description:
-    "Create stunning AI images in minutes with our ready-to-use prompts. Just copy, paste, and generate.",
+    "Browse ready-to-use prompts for images, videos, and more. Just copy, paste, and generate in minutes.",
   cta: {
     label: "Get Started",
     href: "/signup",
