@@ -4,12 +4,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useDisclosure() {
   const [open, setOpen] = useState(false);
-  const triggerRef = useRef<HTMLElement>(null);
+  const triggerNodeRef = useRef<HTMLElement | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  const setTriggerRef = useCallback((node: HTMLElement | null) => {
+    triggerNodeRef.current = node;
+  }, []);
 
   const close = useCallback(() => {
     setOpen(false);
-    triggerRef.current?.focus();
+    triggerNodeRef.current?.focus();
   }, []);
 
   const toggle = useCallback(() => {
@@ -25,7 +29,7 @@ export function useDisclosure() {
       const target = event.target as Node;
 
       if (
-        triggerRef.current?.contains(target) ||
+        triggerNodeRef.current?.contains(target) ||
         panelRef.current?.contains(target)
       ) {
         return;
@@ -56,7 +60,7 @@ export function useDisclosure() {
     open,
     toggle,
     close,
-    triggerRef,
+    setTriggerRef,
     panelRef,
   };
 }

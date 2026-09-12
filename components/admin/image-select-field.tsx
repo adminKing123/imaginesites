@@ -25,7 +25,7 @@ function toImageReference(item: AdminUploadListItem): PromptImageReference {
 
 export function ImageSelectField({ label, user, value, onChange }: ImageSelectFieldProps) {
   const [search, setSearch] = useState("");
-  const { open, toggle, close, triggerRef, panelRef } = useDisclosure();
+  const { open, toggle, close, setTriggerRef, panelRef } = useDisclosure();
   const { results, loading, error } = useImageSearch(user, search, open);
 
   const displayItems = useMemo(() => {
@@ -49,7 +49,7 @@ export function ImageSelectField({ label, user, value, onChange }: ImageSelectFi
       <span className="mb-2 block text-sm font-medium text-white">{label}</span>
 
       <button
-        ref={triggerRef}
+        ref={setTriggerRef}
         type="button"
         onClick={toggle}
         aria-expanded={open}

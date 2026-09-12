@@ -29,7 +29,7 @@ export function CategorySelectField({
   onChange,
 }: CategorySelectFieldProps) {
   const [search, setSearch] = useState("");
-  const { open, toggle, close, triggerRef, panelRef } = useDisclosure();
+  const { open, toggle, close, setTriggerRef, panelRef } = useDisclosure();
   const { results, loading, error } = useCategorySearch(user, search, open);
 
   const displayItems = useMemo(() => {
@@ -72,7 +72,7 @@ export function CategorySelectField({
       <span className="mb-2 block text-sm font-medium text-white">{label}</span>
 
       <div
-        ref={triggerRef}
+        ref={setTriggerRef}
         role="button"
         tabIndex={0}
         onClick={toggle}

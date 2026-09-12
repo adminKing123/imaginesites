@@ -16,7 +16,7 @@ type UserMenuProps = {
 
 export function UserMenu({ user, isAdmin = false }: UserMenuProps) {
   const panelId = useId();
-  const { open, toggle, close, triggerRef, panelRef } = useDisclosure();
+  const { open, toggle, close, setTriggerRef, panelRef } = useDisclosure();
 
   const displayName = user.displayName?.trim() || "Account";
   const email = user.email ?? "";
@@ -29,7 +29,7 @@ export function UserMenu({ user, isAdmin = false }: UserMenuProps) {
   return (
     <div className="relative">
       <button
-        ref={triggerRef}
+        ref={setTriggerRef}
         type="button"
         id={`${panelId}-trigger`}
         aria-expanded={open}
