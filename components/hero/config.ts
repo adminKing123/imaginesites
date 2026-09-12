@@ -1,5 +1,4 @@
 export const HERO_CONTENT = {
-  badge: "Fresh drops everyday",
   heading: {
     before: "Unlock your",
     highlight: "AI",
@@ -8,8 +7,4 @@ export const HERO_CONTENT = {
   },
   description:
     "Browse ready-to-use prompts for images, videos, and more. Just copy, paste, and generate in minutes.",
-  cta: {
-    label: "Get Started",
-    href: "/signup",
-  },
 } as const;

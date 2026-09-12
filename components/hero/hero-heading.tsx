@@ -4,7 +4,7 @@ export function HeroHeading() {
   const { before, highlight, middle, glow } = HERO_CONTENT.heading;
 
   return (
-    <h1 className="max-w-4xl text-center text-4xl font-bold uppercase leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+    <h1 className="max-w-4xl text-center text-[30px] font-bold uppercase leading-[1.05] tracking-tight text-white sm:text-[42px] md:text-[54px] lg:text-[66px]">
       {before}{" "}
       <span className="italic">{highlight}</span> {middle}{" "}
       <span className="relative inline-block">
