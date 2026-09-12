@@ -11,6 +11,7 @@ export const NAV_LINKS: NavLinkItem[] = [
   { label: "Pricing", href: "/pricing", mobileOnly: true },
 ];
 
+export const SIGN_IN_HREF = "/signin";
 export const SIGN_UP_HREF = "/signup";
 
 export const YOUTUBE_HREF = "https://youtube.com";

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/navbar";
 import { SITE_CONFIG, SITE_ICONS } from "@/lib/site-config";
 import "./globals.css";
 
@@ -30,10 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">
-        <Navbar />
-        {children}
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

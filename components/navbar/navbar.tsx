@@ -5,8 +5,7 @@ import { MenuIcon } from "./icons";
 import { MobileMenu } from "./mobile-menu";
 import { NavbarLinks } from "./navbar-links";
 import { NavbarLogo } from "./navbar-logo";
-import { SearchButton } from "./search-button";
-import { SignUpButton } from "./sign-up-button";
+import { NavbarAuthActions } from "./navbar-auth-actions";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,13 +21,10 @@ export function Navbar() {
             <NavbarLinks variant="desktop" className="hidden lg:block" />
           </div>
 
-          <div className="hidden items-center gap-6 lg:flex">
-            <SearchButton />
-            <SignUpButton />
-          </div>
+          <NavbarAuthActions className="hidden lg:flex" />
 
           <div className="flex items-center gap-5 lg:hidden">
-            <SearchButton />
+            <NavbarAuthActions className="gap-5" />
             <button
               type="button"
               aria-label="Open menu"

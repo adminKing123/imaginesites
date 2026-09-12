@@ -5,7 +5,10 @@ import Link from "next/link";
 import { YOUTUBE_HREF } from "./config";
 import { CloseIcon, YouTubeIcon } from "./icons";
 import { NavbarLinks } from "./navbar-links";
+import { signOutUser } from "@/lib/firebase/auth";
+import { useAuthUser } from "@/lib/auth/use-auth-user";
 import { SignUpButton } from "./sign-up-button";
+import { UserAvatar } from "./user-avatar";
 
 type MobileMenuProps = {
   open: boolean;
@@ -13,6 +16,8 @@ type MobileMenuProps = {
 };
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
+  const { user, loading } = useAuthUser();
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
 
@@ -59,7 +64,33 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             <YouTubeIcon />
           </Link>
 
-          <SignUpButton onNavigate={onClose} className="w-full py-3.5 text-base" />
+          {!loading && user ? (
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <UserAvatar user={user} size="sm" />
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-white">
+                    {user.displayName || "Account"}
+                  </p>
+                  <p className="truncate text-xs text-muted">{user.email}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={async () => {
+                  await signOutUser();
+                  onClose();
+                }}
+                className="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-6 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/5"
+              >
+                Log out
+              </button>
+            </div>
+          ) : (
+            !loading && (
+              <SignUpButton onNavigate={onClose} className="w-full py-3.5 text-base" />
+            )
+          )}
         </div>
       </aside>
     </div>
