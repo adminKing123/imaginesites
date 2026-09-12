@@ -16,6 +16,8 @@ googleProvider.setCustomParameters({
 
 export async function signInWithGoogle(): Promise<User> {
   const result = await signInWithPopup(getFirebaseAuth(), googleProvider);
+  const { syncUserProfile } = await import("./sync-user-profile");
+  await syncUserProfile(result.user);
   return result.user;
 }
 
