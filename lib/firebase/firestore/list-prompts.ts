@@ -1,7 +1,7 @@
 import type { Firestore, Query, QueryDocumentSnapshot } from "firebase-admin/firestore";
 import { FIRESTORE_COLLECTIONS } from "./collections";
 import type { PromptRecord } from "./prompts";
-import type { PromptType, PromptUsageType } from "./prompt-types";
+import { EMPTY_PROMPT_IMAGE, type PromptType, type PromptUsageType } from "./prompt-types";
 
 type ListPromptsInput = {
   limit: number;
@@ -35,8 +35,8 @@ function serializePrompt(doc: QueryDocumentSnapshot | FirebaseFirestore.Document
     type: data?.type ?? "image",
     prompt_title: data?.prompt_title ?? "",
     prompt: data?.prompt ?? "",
-    before_image: data?.before_image,
-    after_image: data?.after_image,
+    before_image: data?.before_image ?? EMPTY_PROMPT_IMAGE,
+    after_image: data?.after_image ?? EMPTY_PROMPT_IMAGE,
     prompt_usage_type: data?.prompt_usage_type ?? "free",
     categories: data?.categories ?? [],
     createdAt: data?.createdAt?.toDate?.()?.toISOString?.() ?? null,

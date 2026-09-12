@@ -21,3 +21,9 @@ export type PromptImageReference = {
   image_name: string;
   image_cdn_url: string;
 };
+
+export const EMPTY_PROMPT_IMAGE: PromptImageReference = {
+  id: "",
+  image_name: "",
+  image_cdn_url: "",
+};

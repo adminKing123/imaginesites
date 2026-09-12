@@ -7,11 +7,13 @@ export type PublicCategoryItem = {
   name: string;
 };
 
+export const PUBLIC_CATEGORY_FILTER_LIMIT = 10;
+
 export async function listPublicCategories(db: Firestore) {
   const snapshot = await db
     .collection(FIRESTORE_COLLECTIONS.categories)
     .orderBy("name")
-    .limit(100)
+    .limit(PUBLIC_CATEGORY_FILTER_LIMIT)
     .get();
 
   return snapshot.docs.map((doc) => {
