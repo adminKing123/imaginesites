@@ -1,4 +1,4 @@
-import { GALLERY_GRID_CLASS } from "./constants";
+import { GalleryMasonry } from "./gallery-masonry";
 import { GallerySkeletonCard } from "./gallery-skeleton-card";
 
 const SKELETON_IMAGE_HEIGHTS = [
@@ -11,17 +11,13 @@ type PromptGallerySkeletonProps = {
 
 export function PromptGallerySkeleton({ count = 12 }: PromptGallerySkeletonProps) {
   return (
-    <div
-      className={GALLERY_GRID_CLASS}
-      aria-busy="true"
-      aria-label="Loading prompts"
-    >
+    <GalleryMasonry aria-busy="true" aria-label="Loading prompts">
       {Array.from({ length: count }, (_, index) => (
         <GallerySkeletonCard
           key={index}
           imageHeight={SKELETON_IMAGE_HEIGHTS[index % SKELETON_IMAGE_HEIGHTS.length]}
         />
       ))}
-    </div>
+    </GalleryMasonry>
   );
 }

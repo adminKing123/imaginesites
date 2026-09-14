@@ -1,5 +1,5 @@
 import { GalleryCard } from "./gallery-card";
-import { GALLERY_GRID_CLASS } from "./constants";
+import { GalleryMasonry } from "./gallery-masonry";
 import { GallerySkeletonCard } from "./gallery-skeleton-card";
 import type { PromptGalleryItem } from "./types";
 
@@ -8,13 +8,22 @@ const LOAD_MORE_SKELETON_HEIGHTS = [300, 340, 280, 320];
 type PromptGalleryGridProps = {
   items: PromptGalleryItem[];
   loadingMore?: boolean;
+  linkToPrompt?: boolean;
 };
 
-export function PromptGalleryGrid({ items, loadingMore = false }: PromptGalleryGridProps) {
+export function PromptGalleryGrid({
+  items,
+  loadingMore = false,
+  linkToPrompt = true,
+}: PromptGalleryGridProps) {
   return (
-    <div className={GALLERY_GRID_CLASS}>
+    <GalleryMasonry>
       {items.map((item) => (
-        <GalleryCard key={item.id} item={item} />
+        <GalleryCard
+          key={item.id}
+          item={item}
+          href={linkToPrompt ? `/prompt/${item.id}` : undefined}
+        />
       ))}
 
       {loadingMore
@@ -22,6 +31,6 @@ export function PromptGalleryGrid({ items, loadingMore = false }: PromptGalleryG
             <GallerySkeletonCard key={`loading-more-${index}`} imageHeight={height} />
           ))
         : null}
-    </div>
+    </GalleryMasonry>
   );
 }

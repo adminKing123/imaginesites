@@ -1,10 +1,12 @@
+import { GALLERY_CARD_CLASS } from "./constants";
+
 type GallerySkeletonCardProps = {
   imageHeight: number;
 };
 
 export function GallerySkeletonCard({ imageHeight }: GallerySkeletonCardProps) {
   return (
-    <article className="mb-3 break-inside-avoid sm:mb-5">
+    <article className={GALLERY_CARD_CLASS}>
       <div
         className="animate-pulse rounded-2xl bg-white/10"
         style={{ height: imageHeight }}

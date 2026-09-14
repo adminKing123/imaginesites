@@ -8,8 +8,10 @@ type ListPublicPromptsInput = {
   limit: number;
   cursor?: string;
   categoryId?: string;
+  categoryIds?: string[];
   type?: PromptType;
   promptUsageType?: PromptUsageType;
+  excludeId?: string;
 };
 
 export type PublicPromptItem = {
@@ -63,7 +65,11 @@ export async function listPublicPrompts(
     query = query.where("prompt_usage_type", "==", input.promptUsageType);
   }
 
-  if (input.categoryId) {
+  const categoryIds = input.categoryIds?.filter(Boolean) ?? [];
+
+  if (categoryIds.length > 0) {
+    query = query.where("category_ids", "array-contains-any", categoryIds.slice(0, 10));
+  } else if (input.categoryId) {
     query = query.where("category_ids", "array-contains", input.categoryId);
   }
 
@@ -85,8 +91,14 @@ export async function listPublicPrompts(
   const hasMore = docs.length > limit;
   const pageDocs = hasMore ? docs.slice(0, limit) : docs;
 
+  let items = pageDocs.map(serializePublicPrompt);
+
+  if (input.excludeId) {
+    items = items.filter((item) => item.id !== input.excludeId);
+  }
+
   return {
-    items: pageDocs.map(serializePublicPrompt),
+    items,
     nextCursor: hasMore ? pageDocs[pageDocs.length - 1]?.id ?? null : null,
   };
 }

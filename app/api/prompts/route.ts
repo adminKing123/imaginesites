@@ -17,16 +17,27 @@ export async function GET(request: Request) {
     const limit = Number(searchParams.get("limit") ?? "20");
     const cursor = searchParams.get("cursor") ?? undefined;
     const categoryId = searchParams.get("categoryId") ?? undefined;
+    const categoryIdsParam = searchParams.get("categoryIds") ?? undefined;
     const typeParam = searchParams.get("type") ?? undefined;
     const usageParam = searchParams.get("promptUsageType") ?? undefined;
+    const excludeId = searchParams.get("excludeId") ?? undefined;
+
+    const categoryIds = categoryIdsParam
+      ? categoryIdsParam
+          .split(",")
+          .map((value) => value.trim())
+          .filter(Boolean)
+      : undefined;
 
     const result = await listPublicPrompts(getFirebaseAdminFirestore(), {
       limit,
       cursor,
       categoryId: categoryId?.trim() || undefined,
+      categoryIds,
       type: typeParam && isPromptType(typeParam) ? typeParam : undefined,
       promptUsageType:
         usageParam && isPromptUsageType(usageParam) ? usageParam : undefined,
+      excludeId: excludeId?.trim() || undefined,
     });
 
     return NextResponse.json(result);
