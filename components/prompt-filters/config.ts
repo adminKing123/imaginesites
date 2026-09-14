@@ -23,6 +23,7 @@ export const CATEGORIES: FilterOption[] = [
 export const TYPE_OPTIONS: FilterOption[] = [
   { label: "All", value: "all" },
   { label: "Image", value: "image" },
+  { label: "HTML", value: "html" },
 ];
 
 export const PRICING_OPTIONS: FilterOption[] = [

@@ -10,10 +10,12 @@ import {
   type PromptFormInput,
 } from "@/lib/admin/manage-prompt";
 import {
+  EMPTY_PROMPT_IMAGE,
   PROMPT_TYPES,
   PROMPT_USAGE_TYPES,
   type CategoryReference,
   type PromptImageReference,
+  type PromptType,
   type PromptUsageType,
 } from "@/lib/firebase/firestore/prompt-types";
 import { CategorySelectField } from "./category-select-field";
@@ -35,7 +37,7 @@ export function PromptFormModal({
   onSaved,
 }: PromptFormModalProps) {
   const isEditing = Boolean(item);
-  const [type, setType] = useState(PROMPT_TYPES.image);
+  const [type, setType] = useState<PromptType>(PROMPT_TYPES.image);
   const [promptTitle, setPromptTitle] = useState("");
   const [prompt, setPrompt] = useState("");
   const [promptUsageType, setPromptUsageType] = useState<PromptUsageType>(
@@ -101,8 +103,13 @@ export function PromptFormModal({
     event.preventDefault();
     setError(null);
 
-    if (!beforeImage || !afterImage) {
+    if (type === PROMPT_TYPES.image && (!beforeImage || !afterImage)) {
       setError("Before and after images are required for image prompts.");
+      return;
+    }
+
+    if (type === PROMPT_TYPES.html && !afterImage) {
+      setError("Thumbnail image is required for HTML prompts.");
       return;
     }
 
@@ -110,8 +117,11 @@ export function PromptFormModal({
       type,
       promptTitle: promptTitle.trim(),
       prompt: prompt.trim(),
-      beforeImage,
-      afterImage,
+      beforeImage:
+        type === PROMPT_TYPES.image
+          ? (beforeImage ?? EMPTY_PROMPT_IMAGE)
+          : EMPTY_PROMPT_IMAGE,
+      afterImage: afterImage ?? EMPTY_PROMPT_IMAGE,
       promptUsageType,
       categories,
     };
@@ -153,7 +163,7 @@ export function PromptFormModal({
               {isEditing ? "Update prompt" : "Create a new prompt"}
             </h2>
             <p className="mt-1 text-sm text-muted">
-              Add prompt details and connect before/after images.
+              Add prompt details for image or HTML prompts.
             </p>
           </div>
 
@@ -172,10 +182,11 @@ export function PromptFormModal({
             <span className="mb-2 block text-sm font-medium text-white">Prompt type</span>
             <select
               value={type}
-              onChange={(event) => setType(event.target.value as typeof PROMPT_TYPES.image)}
+              onChange={(event) => setType(event.target.value as PromptType)}
               className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-white/20"
             >
               <option value={PROMPT_TYPES.image}>Image</option>
+              <option value={PROMPT_TYPES.html}>HTML</option>
             </select>
           </label>
 
@@ -190,11 +201,13 @@ export function PromptFormModal({
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm font-medium text-white">Prompt</span>
+            <span className="mb-2 block text-sm font-medium text-white">
+              {type === PROMPT_TYPES.html ? "HTML prompt" : "Prompt"}
+            </span>
             <textarea
               value={prompt}
               onChange={(event) => setPrompt(event.target.value)}
-              rows={5}
+              rows={type === PROMPT_TYPES.html ? 8 : 5}
               className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-white/20"
             />
           </label>
@@ -235,6 +248,15 @@ export function PromptFormModal({
                 onChange={setAfterImage}
               />
             </>
+          ) : null}
+
+          {type === PROMPT_TYPES.html ? (
+            <ImageSelectField
+              label="Thumbnail image"
+              user={user}
+              value={afterImage}
+              onChange={setAfterImage}
+            />
           ) : null}
 
           {error ? (

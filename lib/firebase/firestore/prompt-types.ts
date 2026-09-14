@@ -4,9 +4,14 @@ export type { CategoryReference };
 
 export const PROMPT_TYPES = {
   image: "image",
+  html: "html",
 } as const;
 
 export type PromptType = (typeof PROMPT_TYPES)[keyof typeof PROMPT_TYPES];
+
+export function isPromptType(value: string): value is PromptType {
+  return value === PROMPT_TYPES.image || value === PROMPT_TYPES.html;
+}
 
 export const PROMPT_USAGE_TYPES = {
   free: "free",

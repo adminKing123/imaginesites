@@ -101,7 +101,7 @@ export function ImageUploadModal({
               Create a new image
             </h2>
             <p className="mt-1 text-sm text-muted">
-              Upload an image to GitHub CDN and save it in Firestore.
+              Upload JPEG, PNG, WebP, or GIF to GitHub CDN and save it in Firestore.
             </p>
           </div>
 

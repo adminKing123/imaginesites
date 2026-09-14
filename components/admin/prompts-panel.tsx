@@ -5,11 +5,7 @@ import type { User } from "firebase/auth";
 import { FiPlus } from "react-icons/fi";
 import type { AdminPromptListItem } from "@/lib/admin/fetch-prompts";
 import { deleteAdminPrompt } from "@/lib/admin/manage-prompt";
-import {
-  PROMPT_TYPES,
-  PROMPT_USAGE_TYPES,
-  type PromptUsageType,
-} from "@/lib/firebase/firestore/prompt-types";
+import { PROMPT_USAGE_TYPES, type PromptUsageType } from "@/lib/firebase/firestore/prompt-types";
 import { PromptFormModal } from "./prompt-form-modal";
 import { PromptRow } from "./prompt-row";
 import { usePrompts } from "./use-prompts";
@@ -44,7 +40,6 @@ export function PromptsPanel({ user }: PromptsPanelProps) {
     user,
     promptId: appliedPromptId,
     promptTitle: appliedPromptTitle,
-    type: PROMPT_TYPES.image,
     promptUsageType: appliedUsage,
   });
 

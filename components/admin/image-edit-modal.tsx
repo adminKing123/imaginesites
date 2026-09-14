@@ -105,7 +105,7 @@ export function ImageEditModal({
               Update image
             </h2>
             <p className="mt-1 text-sm text-muted">
-              Change the image name or replace the file on CDN.
+              Change the name or replace the file on CDN (JPEG, PNG, WebP, or GIF).
             </p>
           </div>
 

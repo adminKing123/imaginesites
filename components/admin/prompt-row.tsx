@@ -2,6 +2,7 @@
 
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import type { AdminPromptListItem } from "@/lib/admin/fetch-prompts";
+import { PROMPT_TYPES } from "@/lib/firebase/firestore/prompt-types";
 
 type PromptRowProps = {
   item: AdminPromptListItem;
@@ -61,10 +62,18 @@ export function PromptRow({ item, onEdit, onDelete, deleting = false }: PromptRo
           <p className="mt-3 break-all text-xs text-muted">ID: {item.id}</p>
         </div>
 
-        <div className="flex gap-4">
-          <ImagePreview label="Before" url={item.before_image.image_cdn_url} />
-          <ImagePreview label="After" url={item.after_image.image_cdn_url} />
-        </div>
+        {item.type === PROMPT_TYPES.image &&
+        item.before_image.image_cdn_url &&
+        item.after_image.image_cdn_url ? (
+          <div className="flex gap-4">
+            <ImagePreview label="Before" url={item.before_image.image_cdn_url} />
+            <ImagePreview label="After" url={item.after_image.image_cdn_url} />
+          </div>
+        ) : null}
+
+        {item.type === PROMPT_TYPES.html && item.after_image.image_cdn_url ? (
+          <ImagePreview label="Thumbnail" url={item.after_image.image_cdn_url} />
+        ) : null}
 
         <div className="flex items-start gap-2">
           <button

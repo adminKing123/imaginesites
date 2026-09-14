@@ -1,13 +1,9 @@
 import {
   PROMPT_TYPES,
   PROMPT_USAGE_TYPES,
-  type PromptType,
+  isPromptType,
   type PromptUsageType,
 } from "@/lib/firebase/firestore/prompt-types";
-
-function isPromptType(value: string): value is PromptType {
-  return value === PROMPT_TYPES.image;
-}
 
 function isPromptUsageType(value: string): value is PromptUsageType {
   return value === PROMPT_USAGE_TYPES.free || value === PROMPT_USAGE_TYPES.premium;
@@ -67,6 +63,11 @@ export function validatePromptPayload(body: unknown) {
 
     const afterError = validateImage(payload.afterImage, "After image");
     if (afterError) return afterError;
+  }
+
+  if (payload.type === PROMPT_TYPES.html) {
+    const thumbnailError = validateImage(payload.afterImage, "Thumbnail image");
+    if (thumbnailError) return thumbnailError;
   }
 
   if (!Array.isArray(payload.categories)) {

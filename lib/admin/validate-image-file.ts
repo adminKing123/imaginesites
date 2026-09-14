@@ -9,7 +9,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export function validateImageFile(file: File) {
   if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return "Only image files are allowed.";
+    return "Only JPEG, PNG, WebP, or GIF files are allowed.";
   }
 
   if (file.size > MAX_FILE_SIZE) {

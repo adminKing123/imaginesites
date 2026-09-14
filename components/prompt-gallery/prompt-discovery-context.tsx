@@ -16,7 +16,7 @@ import {
   type PublicPromptItem,
 } from "@/lib/prompts/fetch-public-prompts";
 import {
-  PROMPT_TYPES,
+  isPromptType,
   PROMPT_USAGE_TYPES,
   type PromptUsageType,
 } from "@/lib/firebase/firestore/prompt-types";
@@ -128,12 +128,7 @@ export function PromptDiscoveryProvider({ children }: { children: ReactNode }) {
         const result = await fetchPublicPrompts({
           cursor,
           categoryId: activeCategory !== "all" ? activeCategory : undefined,
-          type:
-            typeValue === "all"
-              ? undefined
-              : typeValue === PROMPT_TYPES.image
-                ? PROMPT_TYPES.image
-                : undefined,
+          type: typeValue === "all" ? undefined : isPromptType(typeValue) ? typeValue : undefined,
           promptUsageType,
         });
 

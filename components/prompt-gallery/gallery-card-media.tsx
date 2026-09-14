@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { FiCopy } from "react-icons/fi";
-import { MdOutlineFlip } from "react-icons/md";
+import { FiCheck, FiCopy } from "react-icons/fi";
+import { MdOutlineCode, MdOutlineFlip } from "react-icons/md";
+import { PROMPT_TYPES } from "@/lib/firebase/firestore/prompt-types";
 import type { PromptGalleryItem } from "./types";
 import { isFreePrompt } from "./types";
 
@@ -13,12 +14,17 @@ type GalleryCardMediaProps = {
 const iconOverlayClassName =
   "inline-flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/45 text-white backdrop-blur-md transition-colors hover:bg-black/60 active:bg-black/70 sm:h-8 sm:w-8 sm:rounded-lg";
 
+const iconBadgeClassName =
+  "inline-flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/45 text-white backdrop-blur-md sm:h-8 sm:w-8 sm:rounded-lg";
+
 export function GalleryCardMedia({ item }: GalleryCardMediaProps) {
   const [showBefore, setShowBefore] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const isImagePrompt = item.type === PROMPT_TYPES.image;
+  const isHtmlPrompt = item.type === PROMPT_TYPES.html;
   const afterUrl = item.after_image?.image_cdn_url;
-  const beforeUrl = item.before_image?.image_cdn_url;
+  const beforeUrl = isImagePrompt ? item.before_image?.image_cdn_url : undefined;
   const canCopy = isFreePrompt(item) && Boolean(item.prompt);
 
   const handleCopy = async (event: React.MouseEvent) => {
@@ -51,7 +57,7 @@ export function GalleryCardMedia({ item }: GalleryCardMediaProps) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={afterUrl}
-          alt={`${item.prompt_title} after`}
+          alt={isImagePrompt ? `${item.prompt_title} after` : `${item.prompt_title} thumbnail`}
           className={`h-auto w-full object-cover transition-opacity duration-300 ${
             showBefore && beforeUrl ? "opacity-0" : "opacity-100"
           }`}
@@ -77,7 +83,11 @@ export function GalleryCardMedia({ item }: GalleryCardMediaProps) {
           title={copied ? "Copied!" : "Copy prompt"}
           className={`absolute right-1.5 top-1.5 sm:right-2 sm:top-2 ${iconOverlayClassName}`}
         >
-          <FiCopy className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+          {copied ? (
+            <FiCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+          ) : (
+            <FiCopy className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+          )}
         </button>
       ) : null}
 
@@ -98,6 +108,16 @@ export function GalleryCardMedia({ item }: GalleryCardMediaProps) {
         >
           <MdOutlineFlip className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
         </button>
+      ) : null}
+
+      {isHtmlPrompt ? (
+        <span
+          aria-label="HTML prompt"
+          title="HTML prompt"
+          className={`absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 ${iconBadgeClassName}`}
+        >
+          <MdOutlineCode className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+        </span>
       ) : null}
     </div>
   );

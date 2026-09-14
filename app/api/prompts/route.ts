@@ -2,15 +2,10 @@ import { NextResponse } from "next/server";
 import { getFirebaseAdminFirestore } from "@/lib/firebase/admin";
 import { listPublicPrompts } from "@/lib/firebase/firestore/list-public-prompts";
 import {
-  PROMPT_TYPES,
+  isPromptType,
   PROMPT_USAGE_TYPES,
-  type PromptType,
   type PromptUsageType,
 } from "@/lib/firebase/firestore/prompt-types";
-
-function isPromptType(value: string): value is PromptType {
-  return value === PROMPT_TYPES.image;
-}
 
 function isPromptUsageType(value: string): value is PromptUsageType {
   return value === PROMPT_USAGE_TYPES.free || value === PROMPT_USAGE_TYPES.premium;
